@@ -1,7 +1,10 @@
 // @flow
 
 import React, { Component } from 'react'
+import Counter from 'components/Counter/Counter'
+
 import './Clock.css'
+
 
 type AppState = {
   test: number
@@ -12,9 +15,10 @@ class Clock extends Component {
     super()
 
     this.state = {
-      test: 1,
+      test: 3,
     }
   }
+
   state: AppState
 
   componentDidMount() {
@@ -23,7 +27,13 @@ class Clock extends Component {
 
   render() {
     return (
-      <div className="clock">{this.state.test}</div>
+      <div className="clock">
+        <Counter
+          value={this.state.test}
+          onIncrease={() => this.setState({ test: this.state.test + 1 })}
+          onDecrease={() => this.setState({ test: this.state.test - 1 })}
+        />
+      </div>
     )
   }
 }
