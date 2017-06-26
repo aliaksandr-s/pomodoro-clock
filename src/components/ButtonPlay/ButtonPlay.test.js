@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Counter from './Counter'
+import ButtonPause from './ButtonPlay'
 
 it('renders without crashing', () => {
   const div = document.createElement('div')
-  ReactDOM.render(<Counter value={10} />, div)
+  ReactDOM.render(<ButtonPause />, div)
 })
