@@ -1,13 +1,13 @@
 // @flow
-
 import React, { Component } from 'react'
+import moment from 'moment'
 import Counter from 'components/Counter/Counter'
 
 import './Clock.css'
 
-
 type AppState = {
-  test: number
+  workLength: moment,
+  breakLength: moment
 }
 
 class Clock extends Component {
@@ -15,8 +15,11 @@ class Clock extends Component {
     super()
 
     this.state = {
-      test: 3,
+      workLength: moment().minute(25).second(0),
+      breakLength: moment().minute(5).second(0),
     }
+
+    console.log()
   }
 
   state: AppState
@@ -28,10 +31,13 @@ class Clock extends Component {
   render() {
     return (
       <div className="clock">
+        <div style={{ fontSize: '3rem' }}>
+          {this.state.workLength.format('mm:ss')}
+        </div>
         <Counter
-          value={this.state.test}
-          onIncrease={() => this.setState({ test: this.state.test + 1 })}
-          onDecrease={() => this.setState({ test: this.state.test - 1 })}
+          value={this.state.workLength.format('mm')}
+          onIncrease={() => this.setState({ workLength: this.state.workLength.add(1, 'm') })}
+          onDecrease={() => this.setState({ workLength: this.state.workLength.subtract(1, 'm') })}
         />
       </div>
     )
