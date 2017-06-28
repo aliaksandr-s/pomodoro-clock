@@ -1,3 +1,4 @@
 .clock {
   color: #757575;
+  user-select: none;
 }
