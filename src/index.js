@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Clock from './containers/Clock/Clock'
+import App from './containers/App/App'
 import './index.css'
 
-ReactDOM.render(<Clock />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'))
