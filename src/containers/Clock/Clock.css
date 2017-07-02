@@ -1,4 +1,17 @@
-.clock {
-  color: #757575;
-  user-select: none;
+.Clock {
+  position: relative;
+}
+
+.Clock__timer {
+  position: absolute;
+  font-size: 5.1rem;
+  top: 30%;
+  width: 240px;
+  text-align: center;
+  left: 50%;
+  margin-left: -120px;
+}
+
+.Clock__circular-progress {
+
 }

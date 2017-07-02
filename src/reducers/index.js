@@ -7,7 +7,7 @@ import {
 } from '../actions/index'
 
 const INITIAL_STATE = {
-  clock: moment(),
+  time: moment(),
   workLength: moment().minute(25).second(0),
   breakLength: moment().minute(5).second(0),
 }
