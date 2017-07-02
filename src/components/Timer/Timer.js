@@ -3,11 +3,12 @@
 import React from 'react'
 
 type Props = {
-  value: string
+  value: string,
+  className: string
 }
 
 const Timer = (props: Props): React.Element<*> => (
-  <div style={{ fontSize: '4rem' }}>
+  <div className={props.className} >
     {props.value}
   </div>
 )
