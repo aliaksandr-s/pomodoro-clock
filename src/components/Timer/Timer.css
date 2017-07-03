@@ -1,0 +1,5 @@
+.timer__time {
+  display: inline-block;
+  min-width: 110px;
+  vertical-align: middle;
+}
