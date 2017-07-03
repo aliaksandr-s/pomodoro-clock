@@ -1,5 +1,5 @@
 .counter {
-  font-size: 1.9rem;
+  font-size: 2rem;
   user-select: none;
   display: flex;
   flex-direction: column;
@@ -7,13 +7,12 @@
 }
 
 .counter__title {
-  font-size: 1.7rem;
-  margin-bottom: 3px;
+  margin-bottom: 7px;
 }
 
 .counter__value {
   display: inline-block;
-  margin: 0 5px;
+  margin: 0 9px;
   min-width: 40px;
   text-align: center;
 }

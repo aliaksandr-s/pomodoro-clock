@@ -8,12 +8,13 @@ type Props = {
   onIncrease: () => void,
   title: string,
   value: number,
+  color?: string,
   style?: Object
 }
 
 const Counter = (props: Props): React.Element<*> => (
   <div style={{ ...props.style }} className="counter">
-    <div className="counter__title">{props.title}</div>
+    <div style={{ color: props.color }} className="counter__title">{props.title}</div>
     <div className="counter__content">
       <span className="counter__controll" role="presentation" onClick={props.onDecrease}>-</span>
       <span className="counter__value">{props.value}</span>
@@ -22,6 +23,9 @@ const Counter = (props: Props): React.Element<*> => (
   </div>
 )
 
-Counter.defaultProps = { style: null }
+Counter.defaultProps = {
+  style: null,
+  color: null,
+}
 
 export default Counter
