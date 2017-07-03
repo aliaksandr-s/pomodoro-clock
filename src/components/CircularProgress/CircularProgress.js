@@ -5,7 +5,7 @@ import './CircularProgress.css'
 
 type Props = {
   percentage: number,
-  classForPercentage: () => void
+  classForPercentage: () => string
 }
 
 const CircularProgress = (props: Props): React.Element<*> => (
