@@ -6,12 +6,13 @@
   position: absolute;
   font-size: 5.1rem;
   top: 30%;
-  width: 240px;
+  width: 100%;
   text-align: center;
-  left: 50%;
-  margin-left: -120px;
 }
 
-.Clock__circular-progress {
-
+.Clock__controlls {
+  position: absolute;
+  top: 65%;
+  width: 100%;
+  text-align: center;
 }

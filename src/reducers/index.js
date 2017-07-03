@@ -4,12 +4,13 @@ import { COUNTER_TYPES } from 'containers/Counters/Counters'
 import {
   INCREASE_COUNTER,
   DECREASE_COUNTER,
-} from '../actions/index'
+} from 'actions/index'
 
 const INITIAL_STATE = {
   time: moment(),
   workLength: moment().minute(25).second(0),
   breakLength: moment().minute(5).second(0),
+  isStopped: true,
 }
 
 export default function (state = INITIAL_STATE, action) {

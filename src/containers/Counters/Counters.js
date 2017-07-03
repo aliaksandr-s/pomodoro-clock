@@ -25,12 +25,14 @@ const Counters = (props: Props): React.Element<*> => (
     <CounterComponent
       style={{ marginRight: '300px' }}
       title="Break"
+      color="#45BF55"
       value={props.breakLength.format('mm')}
       onIncrease={() => props.increaseCounter(COUNTER_TYPES.break)}
       onDecrease={() => props.decreaseCounter(COUNTER_TYPES.break)}
     />
     <CounterComponent
       title="Work"
+      color="#f66"
       value={props.workLength.format('mm')}
       onIncrease={() => props.increaseCounter(COUNTER_TYPES.work)}
       onDecrease={() => props.decreaseCounter(COUNTER_TYPES.work)}
