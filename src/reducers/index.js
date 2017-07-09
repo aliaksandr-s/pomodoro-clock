@@ -4,12 +4,16 @@ import { COUNTER_TYPES } from 'containers/Counters/Counters'
 import {
   INCREASE_COUNTER,
   DECREASE_COUNTER,
+  START,
+  STOP,
+  RESET,
+  UPDATE,
 } from 'actions/index'
 
 const INITIAL_STATE = {
-  time: moment(),
   workLength: moment().minute(25).second(0),
   breakLength: moment().minute(5).second(0),
+  clock: moment().minute(25).second(0),
   isStopped: true,
 }
 
@@ -20,6 +24,7 @@ export default function (state = INITIAL_STATE, action) {
         return {
           ...state,
           workLength: moment().minute(state.workLength.minute() + 1).second(0),
+          clock: moment().minute(state.workLength.minute() + 1).second(0),
         }
       } else if (action.payload === COUNTER_TYPES.break) {
         return {
@@ -33,6 +38,7 @@ export default function (state = INITIAL_STATE, action) {
         return {
           ...state,
           workLength: moment().minute(state.workLength.minute() - 1).second(0),
+          clock: moment().minute(state.workLength.minute() - 1).second(0),
         }
       } else if (action.payload === COUNTER_TYPES.break) {
         return {
@@ -41,6 +47,28 @@ export default function (state = INITIAL_STATE, action) {
         }
       }
       break
+    case START:
+      return {
+        ...state,
+        isStopped: false,
+      }
+    case STOP: {
+      return {
+        ...state,
+        isStopped: true,
+      }
+    }
+    case RESET: {
+      return {
+        ...state,
+        clock: moment(state.workLength),
+      }
+    }
+    case UPDATE:
+      return {
+        ...state,
+        clock: moment(state.clock.subtract(1, 's')),
+      }
     default:
       return state
   }

@@ -7,39 +7,25 @@ import Timer from 'components/Timer/Timer'
 import ButtonPlay from 'components/ButtonPlay/ButtonPlay'
 import ButtonPause from 'components/ButtonPause/ButtonPause'
 import ButtonStop from 'components/ButtonStop/ButtonStop'
+import {
+  start,
+  stop,
+  reset,
+  update,
+} from 'actions/index'
 import './Clock.css'
 
 type ClockProps = {
   workLength: moment,
+  clock: moment,
   start: () => Object,
   stop: () => Object,
   reset: () => Object,
+  update: () => Object,
   isStopped: boolean,
 }
 
-type ClockState = {
-  clock: moment,
-  isStopped: boolean,
-}
-
-class Clock extends Component<void, ClockProps, ClockState> {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      clock: moment(),
-      isStopped: true,
-    }
-  }
-  state: ClockState
-
-  componentDidMount() {
-    this.updateClock()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.updateClock(nextProps.workLength.minute())
-  }
+class Clock extends Component<void, ClockProps, void> {
 
   componentWillUnmount() {
     clearTimeout(this.timer)
@@ -47,56 +33,45 @@ class Clock extends Component<void, ClockProps, ClockState> {
 
   setTimeout() {
     this.timer = setTimeout(() => {
-      if (!this.state.isStopped) this.setTimeout()
-      this.setState({
-        clock: this.state.clock.subtract(1, 's'),
-      })
+      if (!this.props.isStopped) this.setTimeout()
+      this.props.update()
     }, 1000)
   }
 
   getPercentage() {
     const fullSeconds = this.props.workLength.minutes() * 60
-    const currentSeconds = (this.state.clock.minutes() * 60) + this.state.clock.seconds()
+    const currentSeconds = (this.props.clock.minutes() * 60) + this.props.clock.seconds()
     const percantage = 100 - ((currentSeconds / fullSeconds) * 100)
     return percantage
   }
 
-  updateClock(minutes = this.props.workLength.minute()) {
-    this.setState({
-      clock: this.state.clock.minute(minutes).second(0),
-    })
-  }
   timer: number
 
   start() {
-    if (this.timer && !this.state.isStopped) {
+    if (this.timer && !this.props.isStopped) {
       return
     }
-    this.setState({
-      isStopped: false,
-    })
     this.setTimeout()
+    this.props.start()
   }
 
   pause() {
-    this.setState({
-      isStopped: true,
-    })
     clearTimeout(this.timer)
+    this.props.stop()
   }
 
   reset() {
+    this.props.reset()
     this.pause()
-    this.updateClock()
   }
 
   render() {
     return (
       <div className="Clock">
-        <Timer className="Clock__timer" minutes={this.state.clock.format('mm')} seconds={this.state.clock.format('ss')} />
+        <Timer className="Clock__timer" minutes={this.props.clock.format('mm')} seconds={this.props.clock.format('ss')} />
         <div className="Clock__controlls">
-          <ButtonPlay size="70" style={{ display: this.state.isStopped ? 'inline-block' : 'none' }} onClick={() => this.start()} />
-          <ButtonPause size="70" style={{ display: this.state.isStopped ? 'none' : 'inline-block' }} onClick={() => this.pause()} />
+          <ButtonPlay size="70" style={{ display: this.props.isStopped ? 'inline-block' : 'none' }} onClick={() => this.start()} />
+          <ButtonPause size="70" style={{ display: this.props.isStopped ? 'none' : 'inline-block' }} onClick={() => this.pause()} />
           <ButtonStop size="70" onClick={() => this.reset()} />
         </div>
         <CircularProgress percentage={this.getPercentage()} classForPercentage={percentage => 'work'} />
@@ -105,8 +80,10 @@ class Clock extends Component<void, ClockProps, ClockState> {
   }
 }
 
-function mapStateToProps({ workLength, breakLength }) {
-  return { workLength, breakLength }
+function mapStateToProps({ workLength, breakLength, clock, isStopped }) {
+  return { workLength, breakLength, clock, isStopped }
 }
 
-export default connect(mapStateToProps, null)(Clock)
+export default connect(mapStateToProps, {
+  start, stop, reset, update,
+})(Clock)
