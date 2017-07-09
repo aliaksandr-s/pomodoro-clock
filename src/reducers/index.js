@@ -19,9 +19,12 @@ const INITIAL_STATE = {
 }
 
 export default function (state = INITIAL_STATE, action) {
+  const currentSeconds = (state.clock.minutes() * 60) + state.clock.seconds()
+  const fullSeconds = (state.workLength.minutes() * 60) + state.workLength.seconds()
+
   switch (action.type) {
     case INCREASE_COUNTER: {
-      if (!state.isStopped) {
+      if (currentSeconds !== fullSeconds) {
         return state
       }
       if (action.payload === COUNTER_TYPES.work) {
@@ -39,7 +42,7 @@ export default function (state = INITIAL_STATE, action) {
       break
     }
     case DECREASE_COUNTER: {
-      if (!state.isStopped) {
+      if (currentSeconds !== fullSeconds) {
         return state
       }
       if (action.payload === COUNTER_TYPES.work) {
@@ -76,7 +79,6 @@ export default function (state = INITIAL_STATE, action) {
       }
     }
     case UPDATE: {
-      const currentSeconds = (state.clock.minutes() * 60) + state.clock.seconds()
       if (currentSeconds === 0 && state.clockState === 'work') {
         return {
           ...state,
