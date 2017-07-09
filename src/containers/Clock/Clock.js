@@ -53,13 +53,20 @@ class Clock extends Component<void, ClockProps, ClockState> {
       })
     }, 1000)
   }
-  timer: number
+
+  getPercentage() {
+    const fullSeconds = this.props.workLength.minutes() * 60
+    const currentSeconds = (this.state.clock.minutes() * 60) + this.state.clock.seconds()
+    const percantage = 100 - ((currentSeconds / fullSeconds) * 100)
+    return percantage
+  }
 
   updateClock(minutes = this.props.workLength.minute()) {
     this.setState({
       clock: this.state.clock.minute(minutes).second(0),
     })
   }
+  timer: number
 
   start() {
     if (this.timer && !this.state.isStopped) {
@@ -92,7 +99,7 @@ class Clock extends Component<void, ClockProps, ClockState> {
           <ButtonPause size="70" style={{ display: this.state.isStopped ? 'none' : 'inline-block' }} onClick={() => this.pause()} />
           <ButtonStop size="70" onClick={() => this.reset()} />
         </div>
-        <CircularProgress percentage={10} classForPercentage={percentage => 'work'} />
+        <CircularProgress percentage={this.getPercentage()} classForPercentage={percentage => 'work'} />
       </div>
     )
   }
