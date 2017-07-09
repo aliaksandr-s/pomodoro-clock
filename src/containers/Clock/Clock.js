@@ -23,6 +23,7 @@ type ClockProps = {
   reset: () => Object,
   update: () => Object,
   isStopped: boolean,
+  clockState: string,
 }
 
 class Clock extends Component<void, ClockProps, void> {
@@ -61,8 +62,8 @@ class Clock extends Component<void, ClockProps, void> {
   }
 
   reset() {
+    clearTimeout(this.timer)
     this.props.reset()
-    this.pause()
   }
 
   render() {
@@ -74,14 +75,17 @@ class Clock extends Component<void, ClockProps, void> {
           <ButtonPause size="70" style={{ display: this.props.isStopped ? 'none' : 'inline-block' }} onClick={() => this.pause()} />
           <ButtonStop size="70" onClick={() => this.reset()} />
         </div>
-        <CircularProgress percentage={this.getPercentage()} classForPercentage={percentage => 'work'} />
+        <CircularProgress
+          percentage={this.getPercentage()}
+          classForPercentage={() => this.props.clockState}
+        />
       </div>
     )
   }
 }
 
-function mapStateToProps({ workLength, breakLength, clock, isStopped }) {
-  return { workLength, breakLength, clock, isStopped }
+function mapStateToProps({ workLength, breakLength, clock, isStopped, clockState }) {
+  return { workLength, breakLength, clock, isStopped, clockState }
 }
 
 export default connect(mapStateToProps, {
