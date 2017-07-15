@@ -75,6 +75,7 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...state,
         isStopped: true,
+        clockState: 'work',
         clock: moment(state.workLength),
       }
     }
