@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import Sound from 'react-sound'
 import CircularProgress from 'components/CircularProgress/CircularProgress'
 import Timer from 'components/Timer/Timer'
 import ButtonPlay from 'components/ButtonPlay/ButtonPlay'
@@ -17,6 +18,7 @@ import './Clock.css'
 
 type ClockProps = {
   workLength: moment,
+  breakLength: moment,
   clock: moment,
   start: () => Object,
   stop: () => Object,
@@ -44,6 +46,22 @@ class Clock extends Component<void, ClockProps, void> {
     const currentSeconds = (this.props.clock.minutes() * 60) + this.props.clock.seconds()
     const percantage = 100 - ((currentSeconds / fullSeconds) * 100)
     return percantage
+  }
+
+  getPlayStatus(soundLength, clockState) {
+    const fullMinutes = clockState === 'work'
+      ? +this.props.workLength.format('mm') - 1 // we need to subtract 1 minute to get right minutes
+      : +this.props.breakLength.format('mm') - 1
+
+    const fullSec = 60
+    const isMinCorrect = +this.props.clock.format('mm') === fullMinutes
+    const isSecCorrect = +this.props.clock.format('ss') >= fullSec - soundLength
+    const isStateCorrect = this.props.clockState === clockState
+
+    if (!this.props.isStopped && isStateCorrect && isMinCorrect && isSecCorrect) {
+      return 'PLAYING'
+    }
+    return 'STOPPED'
   }
 
   timer: number
@@ -78,6 +96,14 @@ class Clock extends Component<void, ClockProps, void> {
         <CircularProgress
           percentage={this.getPercentage()}
           classForPercentage={() => this.props.clockState}
+        />
+        <Sound
+          url="sounds/break.mp3"
+          playStatus={this.getPlayStatus(3, 'break')}
+        />
+        <Sound
+          url="sounds/work.wav"
+          playStatus={this.getPlayStatus(1, 'work')}
         />
       </div>
     )
